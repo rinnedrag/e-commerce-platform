@@ -14,5 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return 'Hello, everyone!';
+    return view('home.test');
 });
+
+Route::get('/hello', 'TasksController@index');
