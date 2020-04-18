@@ -1,0 +1,25 @@
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template-overviews/shop-homepage)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+
+.body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width:500px;
+    height: 500px;
+    background-color: white;
+}
+
+.item {
+    width: 40px;
+    height: 40px;
+    background-color: #1b1e21;
+    margin: 10px;
+}

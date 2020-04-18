@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Artisan;
 | Console Routes
 |--------------------------------------------------------------------------
 |
-| This file is where you may define all of your Closure based console
-| commands. Each Closure is bound to a command instance allowing a
+| This file is where you may define all of your Cors based console
+| commands. Each Cors is bound to a command instance allowing a
 | simple approach to interacting with each command's IO methods.
 |
 */

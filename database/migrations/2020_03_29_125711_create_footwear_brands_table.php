@@ -15,6 +15,8 @@ class CreateFootwearBrandsTable extends Migration
     {
         Schema::create('footwear_brands', function (Blueprint $table) {
             $table->string('brand')->primary();
+            $table->string('country');
+            $table->foreign('country')->references('country')->on('countries');
         });
     }
 

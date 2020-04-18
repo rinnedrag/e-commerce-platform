@@ -12,4 +12,8 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+   .sass('resources/sass/app.scss', 'public/css')
+    .copy('node_modules/multiselect/css/multi-select.css', 'public/css/vendor')
+    .copy('node_modules/multiselect/js/jquery.multi-select.js', 'public/js/vendor')
+    .copy('node_modules/bootstrap-multiselect/dist/css/bootstrap-multiselect.css', 'public/css/vendor')
+    .copy('node_modules/bootstrap-multiselect/dist/js/bootstrap-multiselect.js', 'public/js/vendor');

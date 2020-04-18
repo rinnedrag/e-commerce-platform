@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home.test');
+Route::prefix('/admin')->group(function (){
+    Route::prefix('/products')->group(function (){
+        Route::get('/new', 'AdminPageController@newProductPage');
+
+        Route::post('/create', 'AdminPageController@createProduct');
+    });
 });
 
-Route::get('/hello', 'TasksController@index');
+
+Route::get('/catalog', 'FootwearController@index');
+
+Auth::routes(['verify' => true]);
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -27,8 +27,6 @@ class CreateFootwearTable extends Migration
             $table->enum('season', ['лето','зима','демисезон','круглогодичный']);
             $table->string('producer_country');
             $table->foreign('producer_country')->references('country')->on('countries');
-            $table->string('brand_country');
-            $table->foreign('brand_country')->references('country')->on('countries');
             $table->string('style');
             $table->char('fitting');
             $table->foreign('fitting')->references('literal')->on('fitting');

@@ -1,0 +1,8 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/css/vendor/multi-select.css": "/css/vendor/multi-select.css",
+    "/js/vendor/jquery.multi-select.js": "/js/vendor/jquery.multi-select.js",
+    "/css/vendor/bootstrap-multiselect.css": "/css/vendor/bootstrap-multiselect.css",
+    "/js/vendor/bootstrap-multiselect.js": "/js/vendor/bootstrap-multiselect.js"
+}
