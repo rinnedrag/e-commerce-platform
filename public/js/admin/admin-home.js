@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    let $url = "http://127.0.0.1:8000";
+
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"
     });
@@ -9,15 +11,17 @@ $(document).ready(function () {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 
-    $("#formCreateProduct").submit(function () {
+    $("#formCreateProduct").submit(function (event) {
+        event.preventDefault();
+        //Create an FormData object
+        let $data = new FormData(this);
 
-        $('#result').html("JSON формы<br />" +
-            JSON.stringify($(this).serializeJSON({useIntKeysAsArrayIndex: true})));
         $.ajax({
-            url: "http://127.0.0.1:8000/admin/products/create",
+            url: $url+"/admin/products/create",
             type : "POST",
-            contentType : 'application/json',
-            data : JSON.stringify($(this).serializeJSON({useIntKeysAsArrayIndex: true})),
+            contentType : false,
+            processData: false,
+            data : $data,
             success : function(result) {
                 // продукт был создан, вернуться к списку продуктов
                 //showProducts();
@@ -30,126 +34,132 @@ $(document).ready(function () {
 
         return false;
     });
-
-
-    $("#buttonSelSoleMaterials").click(function () {
-        $("#percentSoleMaterials").html('');
-        let $i = 0;
-        $("#selectSoleMaterials option:selected").each(function() {
-            $("#percentSoleMaterials").append("<div class='form-row'>" +
-                "<div class=\"col-sm-3 my-1\">"+
-                "<input class=\"form-control\" name='soleMaterials["+$i+"][material]' type=\"text\" value=\""+$( this ).text()+"\" readonly>" +
-                "</div>"+
-                "<div class=\"col-sm-1 my-1\">"+
-                "<input class=\"form-control\" name='soleMaterials["+$i+"][percent]' " +
-                "min='1' max='100' type=\"text\" placeholder='%'>" +
-                "</div>"+
-                "</div>");
-            $i++;
-        });
-    });
-
-
-
-    $("#buttonSelInsoleMaterials").click(function () {
-        $("#percentInsoleMaterials").html('');
-        let $i = 0;
-        $("#selectInsoleMaterials option:selected").each(function() {
-            $("#percentInsoleMaterials").append("<div class='form-row'>" +
-                "<div class=\"col-sm-3 my-1\">"+
-                "<input class=\"form-control\" name='insoleMaterials["+$i+"][material]' type=\"text\" value=\""+$( this ).text()+"\" readonly>" +
-                "</div>"+
-                "<div class=\"col-sm-1 my-1\">"+
-                "<input class=\"form-control\" name='insoleMaterials["+$i+"][percent]' " +
-                "min='1' max='100' type=\"number\" placeholder='%'>" +
-                "</div>"+
-                "</div>");
-            $i++;
-        });
-    });
-
-    $("#buttonSelLiningMaterials").click(function () {
-        $("#percentLiningMaterials").html('');
-        let $i = 0;
-        $("#selectLiningMaterials option:selected").each(function() {
-            $("#percentLiningMaterials").append("<div class='form-row'>" +
-                "<div class=\"col-sm-3 my-1\">"+
-                "<input class=\"form-control\" name='liningMaterials["+$i+"][material]' type=\"text\" value=\""+$( this ).text()+"\" readonly>" +
-                "</div>"+
-                "<div class=\"col-sm-1 my-1\">"+
-                "<input class=\"form-control\" name='liningMaterials["+$i+"][percent]' " +
-                "min='1' max='100' type=\"number\" placeholder='%'>" +
-                "</div>"+
-                "</div>");
-            $i++;
-        });
-    });
-
-    $("#buttonSelBaseMaterials").click(function () {
-        $("#percentBaseMaterials").html('');
-        let $i = 0;
-        $("#selectBaseMaterials option:selected").each(function() {
-            $("#percentBaseMaterials").append("<div class='form-row'>" +
-                "<div class=\"col-sm-3 my-1\">"+
-                "<input class=\"form-control\" name='baseMaterials["+$i+"][material]' type=\"text\" value=\""+$( this ).text()+"\" readonly>" +
-                "</div>"+
-                "<div class=\"col-sm-1 my-1\">"+
-                "<input class=\"form-control\" name='baseMaterials["+$i+"][percent]' " +
-                "min='1' max='100' type=\"number\" placeholder='%'>" +
-                "</div>"+
-                "</div>");
-            $i++;
-        });
-    });
-
-    $("#buttonSelColors").click(function () {
-        $("#colorsAdditions").html('');
-        let $i = 0;
-        $("#selectColors option:selected").each(function() {
-            let $str = "";
-            let $k = 0;
-            $.each($("#selectSizes option:selected"), function(){
-                $str += "<input class=\"form-control\" name='colors["+$i+"][sizes]["+$k+"][size]' value='"+$(this).val()+"' readonly>";
-                $str += "<input class=\"form-control\" name='colors["+$i+"][sizes]["+$k+"][count]' type=\"number\" min=1>";
-                $k++;
-            });
-            $("#colorsAdditions").append("<div class='form-row'>" +
-                "<div class=\"col-sm-3 my-1\">"+
-                "<input class=\"form-control\" name='colors["+$i+"][color]' type=\"text\" value=\""+$( this ).text()+"\" readonly>" +
-                "</div>"+
-                "<div class=\"col-sm-3 my-1\">"+
-                "<label>Фотографии модели обуви</label>"+
-                "<input type=\"file\" name='colors["+$i+"][images]' " +
-                "class=\"form-control-file\" min='1' multiple=\"multiple\" accept=\".jpg, .jpeg, .png\">"+
-                "</div>"+
-                "<div class='col-sm-3 my-1'>" +
-                $str+
-                "</div>"+
-                "</div>");
-            $i++;
-        });
-    });
-
 });
 
 $('#selectSoleMaterials').multiSelect({
-    afterSelect: function(values){
-        let $str = values;
-        //$str = $str.replace(/b/, '-');
-        $str += '-input';
-        $('#result').append("<input class='form-control' id='"+$str.replace(/ /g,'-')+"' value='"+values+"'>");
+    afterSelect: function(values) {
+        let $index = $('#percentSoleMaterials input').length/2;
+        let $material = values + '-div';
+        $material = $material.replace(/ /g, '-');
+        $("#percentSoleMaterials").append("<div id='sole-"+$material+"' class='form-row'>" +
+            "<div class=\"col-sm-6 my-1\">" +
+            "<input class=\"form-control\"" +
+            "name='soleMaterials[" + $index + "][material]' type=\"text\" value=\"" +values + "\" readonly>" +
+            "</div>" +
+            "<div class=\"col-sm-2 my-1\">" +
+            "<input class=\"form-control\"" +
+            "name='soleMaterials[" + $index + "][percent]' " +
+            "min='1' max='100' type=\"text\" placeholder='%' required>" +
+            "</div>" +
+            "</div>");
     },
     afterDeselect: function(values){
-        let $str = values;
-        $str += '-input';
-        $('#'+$str.replace(/ /g,'-')).remove();
+        let $material = values + '-div';
+        $('#sole-'+$material.replace(/ /g, '-')).children().remove();
+        $('#sole-'+$material.replace(/ /g, '-')).remove();
     }
 });
 
-$('#selectInsoleMaterials').multiSelect();
-$('#selectLiningMaterials').multiSelect();
-$('#selectBaseMaterials').multiSelect();
-$('#selectColors').multiSelect();
+$('#selectInsoleMaterials').multiSelect({
+    afterSelect: function(values) {
+        let $index = $('#percentInsoleMaterials input').length/2;
+        let $material = values + '-div';
+        $material = $material.replace(/ /g, '-');
+        $("#percentInsoleMaterials").append("<div id='insole-"+$material+"' class='form-row'>" +
+            "<div class=\"col-sm-6 my-1\">" +
+            "<input class=\"form-control\"" +
+            "name='insoleMaterials[" + $index + "][material]' type=\"text\" value=\"" +values + "\" readonly>" +
+            "</div>" +
+            "<div class=\"col-sm-2 my-1\">" +
+            "<input class=\"form-control\"" +
+            "name='insoleMaterials[" + $index + "][percent]' " +
+            "min='1' max='100' type=\"text\" placeholder='%' required>" +
+            "</div>" +
+            "</div>");
+    },
+    afterDeselect: function(values){
+        let $material = values + '-div';
+        $('#insole-'+$material.replace(/ /g, '-')).children().remove();
+        $('#insole-'+$material.replace(/ /g, '-')).remove();
+    }
+});
+
+$('#selectLiningMaterials').multiSelect({
+    afterSelect: function(values) {
+        let $index = $('#percentLiningMaterials input').length/2;
+        let $material = values + '-div';
+        $material = $material.replace(/ /g, '-');
+        $("#percentLiningMaterials").append("<div id='lining-"+$material+"' class='form-row'>" +
+            "<div class=\"col-sm-6 my-1\">" +
+            "<input class=\"form-control\""+
+            "name='liningMaterials[" + $index + "][material]' type=\"text\" value=\"" +values + "\" readonly>" +
+            "</div>" +
+            "<div class=\"col-sm-2 my-1\">" +
+            "<input class=\"form-control\"" +
+            "name='liningMaterials[" + $index + "][percent]' " +
+            "min='1' max='100' type=\"text\" placeholder='%' required>" +
+            "</div>" +
+            "</div>");
+    },
+    afterDeselect: function(values){
+        let $material = values + '-div';
+        $('#lining-'+$material.replace(/ /g, '-')).children().remove();
+        $('#lining-'+$material.replace(/ /g, '-')).remove();
+    }
+});
+$('#selectBaseMaterials').multiSelect({
+    afterSelect: function(values) {
+        let $index = $('#percentBaseMaterials input').length/2;
+        let $material = values + '-div';
+        $material = $material.replace(/ /g, '-');
+        $("#percentBaseMaterials").append("<div id='base-"+$material+"' class='form-row'>" +
+            "<div class=\"col-sm-6 my-1\">" +
+            "<input class=\"form-control\"" +
+            "name='baseMaterials[" + $index + "][material]' type=\"text\" value=\"" +values + "\" readonly>" +
+            "</div>" +
+            "<div class=\"col-sm-2 my-1\">" +
+            "<input class=\"form-control\"" +
+            "name='baseMaterials[" + $index + "][percent]' " +
+            "min='1' max='100' type=\"text\" placeholder='%' required>" +
+            "</div>" +
+            "</div>");
+    },
+    afterDeselect: function(values){
+        let $material = values + '-div';
+        $('#base-'+$material.replace(/ /g, '-')).children().remove();
+        $('#base-'+$material.replace(/ /g, '-')).remove();
+    }
+});
+$('#selectColors').multiSelect({
+    afterSelect: function (values) {
+        let $index = $('#colorsAdditions input:text').length;
+        let $k = 0;
+        let $str = '';
+        $.each($("#selectSizes option:selected"), function(){
+            $str += "<input class=\"form-control\" name='colors["+$index+"][sizes]["+$k+"][size]' value='"+$(this).val()+"' readonly>";
+            $str += "<input class=\"form-control\" name='colors["+$index+"][sizes]["+$k+"][count]' type=\"number\" min=1>";
+            $k++;
+        });
+        $("#colorsAdditions").append("<div id='"+values+"' class='form-row'>" +
+            "<div class=\"col-sm-2 my-1\">"+
+            "<input class=\"form-control\" name='colors["+$index+"][color]'" +
+            " type=\"text\" value=\""+values+"\" readonly>" +
+            "</div>"+
+            "<div class=\"col-sm-3 my-1\">"+
+            "<label>Фотографии модели обуви</label>"+
+            "<input type=\"file\" name='"+ values+"[]'" +
+            "class=\"form-control-file\" min='1' multiple=\"multiple\" accept=\".jpg, .jpeg, .png\">"+
+            "</div>"+
+            "<div class='col-sm-1 my-1'>" +
+            $str+
+            "</div>"+
+            "</div>");
+    },
+    afterDeselect: function (values) {
+        $('#'+values).children().remove();
+        $('#'+values).remove();
+    }
+});
 $('#selectSizes').multiSelect();
 
 $('#example-getting-started').multiselect({templates: {
@@ -157,27 +167,5 @@ $('#example-getting-started').multiselect({templates: {
     }
 });
 
-$(document).on('submit', '#create-product-form', function(){
-    // получение данных формы
-    var form_data=JSON.stringify($(this).serializeObject());
-
-    // отправка данных формы
-    $.ajax({
-        url: "/admin/products/create",
-        type : "POST",
-        contentType : 'application/json',
-        data : form_data,
-        success : function(result) {
-            // продукт был создан, вернуться к списку продуктов
-            showProducts();
-        },
-        error: function(xhr, resp, text) {
-            // вывести ошибку в консоль
-            console.log(xhr, resp, text);
-        }
-    });
-
-    return false;
-});
 
 
