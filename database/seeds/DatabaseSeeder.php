@@ -11,15 +11,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        //$this->call(CountriesTableSeeder::class);
-        //$this->call(BrandsTableSeeder::class);
-        //$this->call(ClaspKindsTableSeeder::class);
-       // $this->call(ColorsTableSeeder::class);
-       // $this->call(FittingTableSeeder::class);
-       // $this->call(HeelKindsTableSeeder::class);
-       // $this->call(MaterialsTableSeeder::class);
-       // $this->call(SizesTableSeeder::class);
-        // $this->call(FootwearKindsTableSeeder::class);
+         //$this->call(UsersTableSeeder::class);
+        // $this->call(CountriesTableSeeder::class);
+         //$this->call(BrandsTableSeeder::class);
+         //$this->call(ClaspKindsTableSeeder::class);
+        // $this->call(ColorsTableSeeder::class);
+        // $this->call(FittingTableSeeder::class);
+       //  $this->call(HeelKindsTableSeeder::class);
+        // $this->call(MaterialsTableSeeder::class);
+        // $this->call(SizesTableSeeder::class);
+         //$this->call(FootwearKindsTableSeeder::class);
+        //$this->call(ComponentsSeeder::class);
     }
 }

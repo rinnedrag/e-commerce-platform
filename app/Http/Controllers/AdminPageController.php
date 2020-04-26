@@ -11,8 +11,8 @@ use App\FootwearBrand;
 use App\FootwearKind;
 use App\HeelKind;
 use App\Material;
+use App\Services\FootwearService;
 use App\Size;
-use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
 
@@ -39,9 +39,18 @@ class AdminPageController extends Controller
 
     public function createProduct(Request $request) {
         $data = $request->all();
-        if ($request->hasFile('color[0][images]')) {
-            echo($request->file('color[0][images]'));
-        }
+
+        $fs = new FootwearService();
+        $fs->createFootwear($data);
+
         return response()->json($data);
+    }
+
+    public function updateFootwear(Request $request) {
+        //TODO update Footwear controller
+    }
+
+    public function deleteFootwear(Request $request) {
+        //TODO delete Footwear controller
     }
 }

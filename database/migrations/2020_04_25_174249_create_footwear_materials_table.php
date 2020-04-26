@@ -2,10 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFootwearBaseMaterialsTable extends Migration
+class CreateFootwearMaterialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,18 +13,19 @@ class CreateFootwearBaseMaterialsTable extends Migration
      */
     public function up()
     {
-        Schema::create('footwear_base_materials', function (Blueprint $table) {
+        Schema::create('footwear_materials', function (Blueprint $table) {
             $table->bigInteger('footwear_id');
-            $table->string('material');
             $table->foreign('footwear_id')->references('id')->on('footwear');
+            $table->string('component');
+            $table->foreign('component')->references('component')->on('components');
+            $table->string('material');
             $table->foreign('material')->references('material')->on('materials');
-            $table->unique(['material', 'footwear_id']);
             $table->decimal('percent', 3, 2);
+            $table->primary(['footwear_id','component','material']);
         });
 
-        DB::statement('ALTER TABLE footwear_base_materials ADD CONSTRAINT chk_percent_value CHECK (percent between 0 and 1);');
+        DB::statement('ALTER TABLE footwear_materials ADD CONSTRAINT chk_percent_value CHECK (percent between 0 and 1);');
     }
-
 
     /**
      * Reverse the migrations.
@@ -34,6 +34,6 @@ class CreateFootwearBaseMaterialsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('footwear_base_materials');
+        Schema::dropIfExists('footwear_materials');
     }
 }
