@@ -62,10 +62,7 @@
         </nav>
 
         <!-- Page Content -->
-        <div class="form-group" id="result">
-
-        </div>
-        <form id="formCreateProduct" class="container" enctype="multipart/form-data">
+        <form id="formCreateProduct" class="container-fluid" enctype="multipart/form-data">
             <div class="row">
                 <div class="form-group col-2">
                     <a>Вид обуви</a>

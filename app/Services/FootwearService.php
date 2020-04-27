@@ -26,6 +26,7 @@ class FootwearService
         $newModel = Footwear::create($footwear_data);
         $newModel->photos = 'images/footwear/'.$newModel->id.'/';
 
+        $path = '';
         foreach ($data['colors'] as $color) {
             foreach ($color['sizes'] as $size) {
                 $newModel->colorSizeCount()->create([
@@ -36,9 +37,13 @@ class FootwearService
                 ]);
             }
             foreach ($color['images'] as $image) {
-                 $image->storeAs($newModel->photos.$color['color'], (string)Str::uuid().'.png');
+                 $uuid = (string)Str::uuid().'.png';
+                 $image->storeAs($newModel->photos.$color['color'], $uuid);
+                 $path = $newModel->photos.$color['color'].'/'.$uuid;
             }
         }
+        $newModel->photos = $path;
+        $newModel->save();
 
         foreach ($data['materials'] as $material) {
             $newModel->materials()->create([

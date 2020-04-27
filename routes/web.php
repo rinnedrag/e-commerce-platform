@@ -27,4 +27,6 @@ Route::get('/catalog', 'FootwearController@index');
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@home')->name('home');
+Route::get('/catalog', 'HomeController@catalog');
+Route::get('/cart', 'HomeController@cart');
