@@ -90,6 +90,7 @@
 	@include transition(.4s);
 	color:$theme-color;
 */
+
 /* line 63, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_variables.scss */
 .boxed-btn {
   background: #fff;
@@ -398,7 +399,7 @@ input:focus::-moz-placeholder {
 
 /* line 159, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_common.scss */
 .section-padding {
-  padding-top: 120px;
+  padding-top: 100px;
   padding-bottom: 120px;
 }
 
@@ -478,7 +479,7 @@ input:focus::-moz-placeholder {
 }
 
 /* line 230, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_common.scss */
-.btn {
+.btn-saiful {
   background: #2577fd;
   -moz-user-select: none;
   text-transform: capitalize;
@@ -503,7 +504,7 @@ input:focus::-moz-placeholder {
 }
 
 /* line 253, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_common.scss */
-.btn::before {
+.btn-saiful::before {
   content: "";
   position: absolute;
   left: 0;
@@ -520,8 +521,12 @@ input:focus::-moz-placeholder {
   transform: scaleX(0);
 }
 
+header {
+    box-shadow: 0 1em 1em -1em rgba(0, 0, 0, .25);
+}
+
 /* line 271, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_common.scss */
-.btn:hover::before {
+.btn-saiful:hover::before {
   transform: scaleX(1);
   color: #fff !important;
   z-index: -1;
@@ -540,7 +545,7 @@ input:focus::-moz-placeholder {
 }
 
 /* line 287, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_common.scss */
-.btn.focus, .btn:focus {
+.btn-saiful.focus, .btn-saiful:focus {
   outline: 0;
   box-shadow: none;
 }
@@ -9322,6 +9327,7 @@ input:focus {
 /* line 1, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_subscribe_part.scss */
 .subscribe_part {
   background-color: #191d34;
+    margin-top: 100px;
 }
 
 /* line 3, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_subscribe_part.scss */

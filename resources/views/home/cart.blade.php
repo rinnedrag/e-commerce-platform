@@ -2,89 +2,62 @@
 
 @section('content')
     <!--================Cart Area =================-->
-    <section class="cart_area section_padding">
+    <section class="cart_area " style="margin-top: 100px">
         <div class="container">
             <div class="cart_inner">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Total</th>
+                            <th scope="col">Товар</th>
+                            <th scope="col">Размер</th>
+                            <th scope="col">Количество</th>
+                            <th scope="col">Стоимость</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="images/home/img/arrivel/arrivel_1.png" alt="" />
-                                    </div>
-                                    <div class="media-body">
-                                        <p>Minimalistic shop for multipurpose use</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <h5>$360.00</h5>
-                            </td>
-                            <td>
-                                <div class="product_count">
-                                    <!-- <input type="text" value="1" min="0" max="10" title="Quantity:"
-                                      class="input-text qty input-number" />
-                                    <button
-                                      class="increase input-number-increment items-count" type="button">
-                                      <i class="ti-angle-up"></i>
-                                    </button>
-                                    <button
-                                      class="reduced input-number-decrement items-count" type="button">
-                                      <i class="ti-angle-down"></i>
-                                    </button> -->
-                                    <span class="input-number-decrement"> <i class="ti-minus"></i></span>
-                                    <input class="input-number" type="text" value="1" min="0" max="10">
-                                    <span class="input-number-increment"> <i class="ti-plus"></i></span>
-                                </div>
-                            </td>
-                            <td>
-                                <h5>$720.00</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="images/home/img/arrivel/arrivel_2.png" alt="" />
-                                    </div>
-                                    <div class="media-body">
-                                        <p>Minimalistic shop for multipurpose use</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <h5>$360.00</h5>
-                            </td>
-                            <td>
-                                <div class="product_count">
-                                    <span class="input-number-decrement"> <i class="ti-minus"></i></span>
-                                    <input class="input-number" type="text" value="1" min="0" max="10">
-                                    <span class="input-number-increment"> <i class="ti-plus"></i></span>
-                                </div>
-                            </td>
-                            <td>
-                                <h5>$720.00</h5>
-                            </td>
-                        </tr>
+                        @if(session('cart'))
+                            @foreach(session('cart') as $id => $details)
+                                <tr>
+                                    <td>
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <img src="/storage/images/footwear/{{$details['model']}}/{{$footwearData[$details['model']][0]->filename}}" alt="" />
+                                            </div>
+                                            <div class="media-body">
+                                                <p><b>{{$details['brand']}}</b> \ {{$details['kind']}}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5>{{$details['size']}}</h5>
+                                    </td>
+                                    <td>
+                                        <div class="product_count">
+                                            <span class="input-number-decrement"> <i class="ti-minus"></i></span>
+                                            <input class="input-number" type="text" value="{{$details['quantity']}}" min="0" max="10">
+                                            <span class="input-number-increment"> <i class="ti-plus"></i></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5>{{$details['quantity'] * $footwearData[$details['model']][0]->price}} &#8381; </h5>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @else
+                                <tr>
+                                    <td><h2 style="margin-top: 100px;margin-bottom: 100px">Корзина пуста</h2></td>
+                                </tr>
+                        @endif
                         <tr class="bottom_button">
                             <td>
-                                <a class="btn_1" href="#">Update Cart</a>
+                                <a class="btn_1" href="#">Обновить корзину</a>
                             </td>
                             <td></td>
                             <td></td>
                             <td>
                                 <div class="cupon_text float-right">
-                                    <a class="btn_1" href="#">Close Coupon</a>
+                                    <a class="btn_1" href="#">Использовать купон</a>
                                 </div>
                             </td>
                         </tr>
@@ -92,7 +65,7 @@
                             <td></td>
                             <td></td>
                             <td>
-                                <h5>Subtotal</h5>
+                                <h5>Общая стоимость</h5>
                             </td>
                             <td>
                                 <h5>$2160.00</h5>

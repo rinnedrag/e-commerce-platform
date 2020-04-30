@@ -6,7 +6,7 @@ use App\ClaspKind;
 use App\Color;
 use App\Country;
 use App\Fitting;
-use App\Footwear;
+use App\FootwearData;
 use App\FootwearBrand;
 use App\FootwearKind;
 use App\HeelKind;
@@ -47,10 +47,10 @@ class AdminPageController extends Controller
     }
 
     public function updateFootwear(Request $request) {
-        //TODO update Footwear controller
+        //TODO update FootwearData controller
     }
 
     public function deleteFootwear(Request $request) {
-        //TODO delete Footwear controller
+        //TODO delete FootwearData controller
     }
 }

@@ -31,20 +31,16 @@
                                             </ul>
                                         </li>
                                         <li><a href="contact.html">Контакты</a></li>
+                                        @guest
+                                            @else
+                                            <li><a href="{{url('/profile')}}">Профиль</a></li>
+                                        @endguest
                                     </ul>
                                 </nav>
                             </div>
                         </div>
                         <div class="col-xl-5 col-lg-3 col-md-3 col-sm-3 fix-card">
                             <ul class="header-right f-right d-none d-lg-block d-flex justify-content-between">
-                                <li class="d-none d-xl-block">
-                                    <div class="form-box f-right ">
-                                        <input type="text" name="Search" placeholder="Поиск товара...">
-                                        <div class="search-icon">
-                                            <i class="fas fa-search special-tag"></i>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li class=" d-none d-xl-block">
                                     <div class="favorit-items">
                                         <i class="far fa-heart"></i>
@@ -55,7 +51,16 @@
                                         <a href="{{url('/cart')}}"><i class="fas fa-shopping-cart"></i></a>
                                     </div>
                                 </li>
-                                <li class="d-none d-lg-block"> <a href="{{url('login')}}" class="btn header-btn">Войти</a></li>
+
+                                @guest
+                                    <li class="d-none d-lg-block"> <a href="{{url('login')}}" class="btn-saiful header-btn">Войти</a></li>
+                                @else
+                                    <li class="d-none d-lg-block"> <a href="{{url('logout')}}" class="btn-saiful header-btn"
+                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">Выйти</a></li>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                @endguest
                             </ul>
                         </div>
                         <!-- Mobile Menu -->

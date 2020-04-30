@@ -29,4 +29,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@home')->name('home');
 Route::get('/catalog', 'HomeController@catalog');
+Route::get('/profile', 'HomeController@profile');
+Route::get('/product/{id}', 'HomeController@productPage');
 Route::get('/cart', 'HomeController@cart');
+Route::post('/cart/add/{id}', 'HomeController@addToCart');

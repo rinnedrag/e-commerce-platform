@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Color query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Color whereColor($value)
  * @mixin \Eloquent
+ * @property string|null $code
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Color whereCode($value)
  */
 class Color extends Model
 {

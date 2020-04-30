@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFootwearTable extends Migration
+class CreateFootwearDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreateFootwearTable extends Migration
      */
     public function up()
     {
-        Schema::create('footwear', function (Blueprint $table) {
+        Schema::create('footwear_data', function (Blueprint $table) {
             $table->bigIncrements('id');
-            #$table->integer('set_number')->unique(); # артикул зависит от разных параметров, здесь ему не место
             $table->string('kind');
             $table->foreign('kind')->references('kind')->on('footwear_kinds');
             $table->string('brand');
             $table->foreign('brand')->references('brand')->on('footwear_brands');
-            $table->string('photos')->default('images/footwear/');
             $table->text('description');
-            $table->double('price');
             $table->enum('gender', ['мужская', 'женская','детская']);
             $table->enum('season', ['лето','зима','демисезон','круглогодичный']);
             $table->string('producer_country');
@@ -45,6 +42,6 @@ class CreateFootwearTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('footwear');
+        Schema::dropIfExists('footwear_data');
     }
 }

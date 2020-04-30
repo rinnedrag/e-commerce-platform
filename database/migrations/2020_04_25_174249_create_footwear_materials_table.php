@@ -15,7 +15,7 @@ class CreateFootwearMaterialsTable extends Migration
     {
         Schema::create('footwear_materials', function (Blueprint $table) {
             $table->bigInteger('footwear_id');
-            $table->foreign('footwear_id')->references('id')->on('footwear');
+            $table->foreign('footwear_id')->references('id')->on('footwear_data');
             $table->string('component');
             $table->foreign('component')->references('component')->on('components');
             $table->string('material');

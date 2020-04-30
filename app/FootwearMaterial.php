@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $footwear_id
  * @property string $material
  * @property float $percent
- * @property-read \App\Footwear $footwear
+ * @property-read \App\FootwearData $footwear
  * @method static \Illuminate\Database\Eloquent\Builder|\App\FootwearMaterial newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\FootwearMaterial newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\FootwearMaterial query()
@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\FootwearMaterial whereMaterial($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\FootwearMaterial wherePercent($value)
  * @mixin \Eloquent
+ * @property string $component
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\FootwearMaterial whereComponent($value)
  */
 class FootwearMaterial extends Model
 {
@@ -29,6 +31,6 @@ class FootwearMaterial extends Model
     protected $fillable = ['footwear_id', 'material', 'component', 'percent'];
 
     public function footwear() {
-        return $this->belongsTo('App\Footwear', 'id','footwear_id');
+        return $this->belongsTo('App\FootwearData', 'id','footwear_id');
     }
 }
