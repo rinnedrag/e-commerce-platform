@@ -123,7 +123,8 @@
                                         <a  href="{{url('product/'.$model->id)}}">
                                             <img src="/storage/images/footwear/{{$model->id}}/{{$model->filename}}" alt=""></a>
                                         <div class="pi-links">
-                                            <a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+                                            <a href="#" class="add-card" id="{{$model->id.'-'.$model->brand.'-'.$model->kind}}">
+                                                <i class="flaticon-bag"></i><span>ADD TO CART</span></a>
                                             <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
                                         </div>
                                     </div>
@@ -148,4 +149,16 @@
     <script src="/js/home/main_page/jquery-ui.min.js"></script>
     <script src="/js/vendor/bootstrap-select.js" type="text/javascript"></script>
     <script src="/js/home/main_page/productPage.js"></script>
+    <script>
+        $(document).ready(function() {
+            let $url = "http://127.0.0.1:8000";
+
+            /*$('input[name="cs"]:checked').on('change', function (event) {
+                   $('#modelsCount').replaceWith('<span id="modelsCount"></span>');
+            })*/
+
+            //TODO: доделать добавление товара в корзину через каталог. Как вариант, всплывающее окно с выбором размера
+
+        })
+    </script>
 @endsection

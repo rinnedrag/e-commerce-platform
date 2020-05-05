@@ -1,5 +1,4 @@
 @extends('home.index')
-
 @section('content')
     <!--================Cart Area =================-->
     <section class="cart_area " style="margin-top: 100px">
@@ -13,6 +12,7 @@
                             <th scope="col">Размер</th>
                             <th scope="col">Количество</th>
                             <th scope="col">Стоимость</th>
+                            <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -34,13 +34,17 @@
                                     </td>
                                     <td>
                                         <div class="product_count">
-                                            <span class="input-number-decrement"> <i class="ti-minus"></i></span>
-                                            <input class="input-number" type="text" value="{{$details['quantity']}}" min="0" max="10">
-                                            <span class="input-number-increment"> <i class="ti-plus"></i></span>
+                                            {{--<span class="input-number-decrement"> <i class="ti-minus"></i></span>--}}
+                                            <input class="input-number" type="number" value="{{$details['quantity']}}"
+                                                   name="{{$details['model'].'-'.$details['size'].'-quantity'}}" min="0" max="10">
+                                            {{--<span class="input-number-increment"> <i class="ti-plus"></i></span>--}}
                                         </div>
                                     </td>
                                     <td>
                                         <h5>{{$details['quantity'] * $footwearData[$details['model']][0]->price}} &#8381; </h5>
+                                    </td>
+                                    <td>
+                                        <a href="#" id="{{$details['model'].'-'.$details['size'].'-delete'}}" class="deleteItem"><i class="fas fa-times"> Удалить</i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -49,19 +53,8 @@
                                     <td><h2 style="margin-top: 100px;margin-bottom: 100px">Корзина пуста</h2></td>
                                 </tr>
                         @endif
-                        <tr class="bottom_button">
-                            <td>
-                                <a class="btn_1" href="#">Обновить корзину</a>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div class="cupon_text float-right">
-                                    <a class="btn_1" href="#">Использовать купон</a>
-                                </div>
-                            </td>
-                        </tr>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td>
@@ -72,6 +65,7 @@
                             </td>
                         </tr>
                         <tr class="shipping_area">
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td>
@@ -127,4 +121,61 @@
         </div>
     </section>
     <!--================End Cart Area =================-->
+@endsection
+
+@section('additionalJS')
+    <script>
+        $(document).ready(function () {
+            let $url = "http://127.0.0.1:8000";
+
+            $('input[name$="-quantity"]').on('change', function (event) {
+                event.preventDefault();
+                let $quantity = $(this).val();
+                let $name = $(this).attr('name');
+                let $splitted_name = $name.split('-');
+
+                let $data = JSON.stringify({
+                    "size": $splitted_name[1],
+                    "quantity": $quantity
+                });
+
+                $.ajax({
+                    url: $url+"/cart/update/"+$splitted_name[0],
+                    type : "PUT",
+                    contentType : 'application/json',
+                    data: $data,
+                    success : function(result) {
+                        // продукт был создан, вернуться к списку продуктов
+                        alert('Товар обновлен');
+                    },
+                    error: function(xhr, resp, text) {
+                        // вывести ошибку в консоль
+                        console.log(xhr, resp, text);
+                    }
+                });
+            });
+
+            $('.deleteItem').on('click', function (event) {
+                event.preventDefault();
+                let $id = $(this).attr('id');
+                let $splitted_id = $id.split('-');
+
+                $.ajax({
+                    url: $url+"/cart/delete/"+$splitted_id[0]+'?size='+$splitted_id[1],
+                    type : "DELETE",
+                    success : function(result) {
+                        // продукт был создан, вернуться к списку продуктов
+                        alert('Товар удалён');
+                    },
+                    error: function(xhr, resp, text) {
+                        // вывести ошибку в консоль
+                        console.log(xhr, resp, text);
+                    }
+                });
+
+                $(this).parent().parent().remove();
+
+            })
+        });
+    </script>
 @endsection

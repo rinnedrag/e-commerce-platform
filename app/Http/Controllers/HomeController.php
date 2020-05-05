@@ -21,6 +21,7 @@ use Arr;
 use DB;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Image;
 use phpDocumentor\Reflection\Types\Array_;
 use Storage;
 
@@ -43,6 +44,7 @@ class HomeController extends Controller
      */
     public function home()
     {
+
         return view('home.home');
     }
 
@@ -84,69 +86,6 @@ class HomeController extends Controller
             ->with('materials', $materials)
             ->with('sizes', $sizes)
             ->with('colors', $availableColors);
-    }
-
-    public function cart() {
-        $cart = session()->get('cart');
-        if (!$cart) {
-            return (view('home.cart'));
-        }
-        $footwear_ids = [];
-        foreach ($cart as $id => $details) {
-            array_push($footwear_ids, $details['model']);
-        }
-        $images = FootwearImage::select(['model_id', DB::raw('MAX(filename) as filename')])->groupBy('model_id');
-        $footwear = DB::table('footwear_models')->joinSub($images, 'images', function($join) {
-            $join->on('footwear_models.id', '=', 'images.model_id');})
-            ->select('footwear_models.price', 'footwear_models.id', 'images.filename')
-            ->whereIn('id', $footwear_ids)->get();
-        $footwearData = $footwear->groupBy('id');
-        return view('home.cart')
-            ->with('footwearData', $footwearData);
-    }
-
-    public function addToCart(Request $request, $id) {
-        if (!FootwearModel::whereId($id)->get()) {
-            return view('layouts.404');
-        }
-
-        $cart = session()->get('cart');
-        $data = $request->all();
-
-        //cart is empty
-        if (!$cart) {
-            $cart = [
-                $id.'-'.$data['size'] => [
-                    'size' => $data['size'],
-                    'brand' => $data['brand'],
-                    'kind' => $data['kind'],
-                    'model' => $id,
-                    'quantity' => $data['quantity']
-                ]
-            ];
-            session()->put('cart', $cart);
-            return back();
-        }
-
-        // if cart not empty then check if this product exist then increment quantity
-        if (isset($cart[$id.'-'.$data['size']])) {
-            $cart[$id.'-'.$data['size']]['quantity']++;
-            session()->put('cart', $cart);
-            return back();
-        }
-
-        // if item not exist in cart then add to cart with quantity = 1
-        $cart[$id.'-'.$data['size']] = [
-            'size' => $data['size'],
-            'brand' => $data['brand'],
-            'kind' => $data['kind'],
-            'model' => $id,
-            'quantity' => 1
-        ];
-
-        session()->put('cart', $cart);
-
-        return back();
     }
 
     public function profile() {

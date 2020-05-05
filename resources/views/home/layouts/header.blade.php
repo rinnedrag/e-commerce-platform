@@ -43,12 +43,12 @@
                             <ul class="header-right f-right d-none d-lg-block d-flex justify-content-between">
                                 <li class=" d-none d-xl-block">
                                     <div class="favorit-items">
-                                        <i class="far fa-heart"></i>
+                                        <i class="far fa-heart"></i><span hidden></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="shopping-card">
-                                        <a href="{{url('/cart')}}"><i class="fas fa-shopping-cart"></i></a>
+                                        <a href="{{url('/cart')}}"><i class="fas fa-shopping-cart"></i><span id="itemsCount" hidden></span></a>
                                     </div>
                                 </li>
 
@@ -74,3 +74,5 @@
     </div>
     <!-- Header End -->
 </header>
+<
+

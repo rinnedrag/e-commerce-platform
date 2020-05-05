@@ -96,6 +96,12 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    $(document).ready(function(){
+        @if(session('cart'))
+        $('#itemsCount').replaceWith('<span id="itemsCount">{{count(session('cart'))}}</span>');
+        @endif
+    });
 </script>
 
 @section('additionalJS')

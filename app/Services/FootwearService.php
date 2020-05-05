@@ -8,6 +8,7 @@ use App\FootwearImage;
 use App\FootwearMaterial;
 use App\FootwearModelSize;
 use DB;
+use Image;
 use Str;
 
 class FootwearService
@@ -26,7 +27,7 @@ class FootwearService
             'price' => $data['price']
         ];
         $newModel = FootwearData::create($footwear_data);
-        $newModel->photos = 'public/images/footwear/'.$newModel->id.'/';
+        $path = 'storage/images/footwear/'.$newModel->id.'/';
 
         $images = collect([]);
         foreach ($data['colors'] as $color) {
@@ -40,7 +41,13 @@ class FootwearService
             }
             foreach ($color['images'] as $image) {
                  $uuid = (string)Str::uuid().'.jpeg';
-                 $path = $image->storeAs($newModel->photos.$color['color'], $uuid);
+                 $path = $image->storeAs($path, $uuid);
+
+                 // open and resize an image file
+                 $img = Image::make($path.'/'.$uuid)->resize(116, 116);
+                 // save file as jpg with medium quality
+                 $img->save($path.'thumb-'.$uuid, 60);
+
                  $images->push(['filename' => $uuid, 'color' => $color, 'footwear_id' => $newModel->id]);
             }
         }
@@ -72,5 +79,17 @@ class FootwearService
         })->join('footwear_data', 'footwear_data.id','=','footwear_models.footwear_id')
             ->select('footwear_models.id','footwear_data.brand','footwear_data.kind',
                 'footwear_models.price','footwear_models.color','images.filename')->get();
+    }
+
+    public function getFootwearCart($cart) {
+        $footwear_ids = [];
+        foreach ($cart as $id => $details) {
+            array_push($footwear_ids, $details['model']);
+        }
+        $images = FootwearImage::select(['model_id', DB::raw('MAX(filename) as filename')])->groupBy('model_id');
+        return DB::table('footwear_models')->joinSub($images, 'images', function($join) {
+            $join->on('footwear_models.id', '=', 'images.model_id');})
+            ->select('footwear_models.price', 'footwear_models.id', 'images.filename')
+            ->whereIn('id', $footwear_ids)->get();
     }
 }

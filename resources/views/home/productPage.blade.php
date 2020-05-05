@@ -16,19 +16,14 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="product-pic-zoom">
-                       {{-- /storage/images/footwear/{{$model['id}}/голубой/{{$images->filename}}--}}
                         <img class="product-big-img" src="/storage/images/footwear/{{$model['id']}}/{{$images[0]->filename}}" alt="">
                     </div>
                     <div class="product-thumbs" tabindex="1" style="overflow: hidden; outline: none;">
                         <div class="product-thumbs-track">
-                            <div class="pt active" data-imgbigurl="/storage/images/footwear/{{$model['id']}}/{{$images[0]->filename}}">
-                                <img src="/images/home/diviz/single-product/thumb-1.jpg" alt=""></div>
-                            <div class="pt" data-imgbigurl="/images/home/diviz/single-product/2.jpg">
-                                <img src="/images/home/diviz/single-product/thumb-2.jpg" alt=""></div>
-                            <div class="pt" data-imgbigurl="/images/home/diviz/single-product/3.jpg">
-                                <img src="/images/home/diviz/single-product/thumb-3.jpg" alt=""></div>
-                            <div class="pt" data-imgbigurl="/images/home/diviz/single-product/4.jpg">
-                                <img src="/images/home/diviz/single-product/thumb-4.jpg" alt=""></div>
+                            @foreach($images as $image)
+                                <div class="pt @if ($loop->first) active @endif " data-imgbigurl="/storage/images/footwear/{{$model['id']}}/{{$image->filename}}">
+                                    <img src="/storage/images/footwear/{{$model['id']}}/thumb-{{$image->filename}}" alt=""></div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -193,7 +188,7 @@
             let $url = "http://127.0.0.1:8000";
 
             /*$('input[name="cs"]:checked').on('change', function (event) {
-                   $('#modelsCount').replaceWith('<span id="modelsCount">{{}}</span>');
+                   $('#modelsCount').replaceWith('<span id="modelsCount"></span>');
             })*/
 
             $('#addToCart').on('click', function (event) {
