@@ -38,3 +38,5 @@ Route::prefix('/cart')->group(function () {
     Route::put('/update/{id}', 'CartController@update');
     Route::delete('/delete/{id}', 'CartController@deleteFrom');
 });
+
+Route::get('/broadcast', 'BroadcastController@videochatPage');
