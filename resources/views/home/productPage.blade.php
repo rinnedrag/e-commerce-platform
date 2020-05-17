@@ -14,7 +14,7 @@
     <section class="product-section section-padding">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6">
+                <div id="images" class="col-lg-6">
                     <div class="product-pic-zoom">
                         <img class="product-big-img" src="/storage/images/footwear/{{$model['id']}}/{{$images[0]->filename}}" alt="">
                     </div>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-lg-6 product-details">
                     <h2 class="p-title"><b>{{$model['brand']}}</b> \ {{$model['kind']}}</h2>
-                    <h3 class="p-price"> {{$model['price']}} &#8381;</h3>
+                    <h3 class="p-price"> <span id="price">{{$model['price']}}</span> &#8381;</h3>
                     <h4 class="p-stock">Доступно моделей: <span id="modelsCount">на складе</span></h4>
                     <div class="p-rating">
                         <i class="fa fa-star-o"></i>
@@ -54,7 +54,7 @@
                         @endforeach
 
                     </div>
-                   <div class="fw-size-choose">
+                   <div id="sizes" class="fw-size-choose">
                         <p>Размер</p>
                         @foreach($sizes as $modelSize)
                             <div class="sc-item">
@@ -186,10 +186,6 @@
     <script>
         $(document).ready(function() {
             let $url = "http://127.0.0.1:8000";
-
-            /*$('input[name="cs"]:checked').on('change', function (event) {
-                   $('#modelsCount').replaceWith('<span id="modelsCount"></span>');
-            })*/
 
             $('#addToCart').on('click', function (event) {
                 event.preventDefault();

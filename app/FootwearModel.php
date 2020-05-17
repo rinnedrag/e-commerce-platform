@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $images_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\FootwearModelSize[] $sizes
  * @property-read int|null $sizes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\OrderProduct[] $orderProducts
+ * @property-read int|null $order_products_count
  */
 class FootwearModel extends Model
 {
@@ -49,5 +51,9 @@ class FootwearModel extends Model
 
     public function images() {
         return $this->hasMany('App\FootwearImage', 'model_id');
+    }
+
+    public function orderProducts() {
+        return $this->hasMany('App\OrderProduct', 'product_id');
     }
 }

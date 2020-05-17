@@ -16,10 +16,17 @@ class CartController extends Controller
             return (view('home.cart'));
         }
 
-        $footwear = (new FootwearService())->getFootwearCart($cart);
+        $footwear = (new FootwearService())->getFootwearCart($cart)->groupBy('id');
+
+        $totalPrice = 0;
+
+        foreach ($cart as $item) {
+           $totalPrice += $item['quantity']*$footwear[$item['model']][0]->price;
+        }
 
         return view('home.cart')
-            ->with('footwearData', $footwear->groupBy('id'));
+            ->with('footwearData', $footwear)
+            ->with('totalPrice', $totalPrice);
     }
 
     public function addTo(Request $request, $id) {

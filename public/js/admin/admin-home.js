@@ -152,12 +152,17 @@ $('#selectColors').multiSelect({
         });
         $("#colorsAdditions").append("<div id='"+values+"' class='form-row'>" +
             "<div class=\"col-sm-2 my-1\">"+
+            "<label>Цвет</label>"+
             "<input class=\"form-control\" name='colors["+$i+"][color]'" +
             " type=\"text\" value=\""+values+"\" readonly>" +
             "</div>"+
+            "<div class='col-sm-2 my-1'>"+
+            "<label>Цена</label>"+
+            "<input name='colors["+$i+"][price]' class='form-control' type='text' placeholder='0' required>"+
+            "</div>"+
             "<div class=\"col-sm-3 my-1\">"+
             "<label>Фотографии модели обуви</label>"+
-            "<input type=\"file\" name='colors["+$i+"][images][]'" +
+            "<input type=\"file\" name='colors["+$i+"][images][]' " +
             "class=\"form-control-file\" min='1' multiple=\"multiple\" accept=\".jpg, .jpeg, .png\">"+
             "</div>"+
             "<div class='col-sm-1 my-1'>" +

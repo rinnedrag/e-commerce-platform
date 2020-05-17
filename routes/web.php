@@ -17,20 +17,32 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/admin')->group(function (){
     Route::prefix('/products')->group(function (){
         Route::get('/new', 'AdminPageController@newProductPage');
-
+        Route::get('/list', 'AdminPageController@productList');
         Route::post('/create', 'AdminPageController@createProduct');
     });
+    Route::get('/orders', 'AdminPageController@getOrders');
+    Route::get('/broadcast', 'AdminPageController@broadcast');
 });
-
-
-Route::get('/catalog', 'FootwearController@index');
 
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@home')->name('home');
-Route::get('/catalog', 'HomeController@catalog');
+Route::get('/catalog', 'HomeController@catalogPage');
+Route::get('/catalog/filters', 'HomeController@catalogData');
 Route::get('/profile', 'HomeController@profile');
 Route::get('/product/{id}', 'HomeController@productPage');
+Route::get('/product/{id}/data', 'HomeController@productData');
+
+Route::get('/checkout', 'PaymentController@checkout');
+Route::post('/pay', 'PaymentController@pay');
+Route::get('/payment', 'PaymentController@paymentPage');
+
+Route::prefix('/orders')->group(function() {
+    Route::post('/create', 'OrderController@create');
+    Route::get('/{id}', 'OrderController@getOrder');
+    Route::get('', 'OrderController@getOrders');
+    Route::put('/pay/{id}', 'OrderController@pay');
+});
 
 Route::prefix('/cart')->group(function () {
     Route::get('', 'CartController@cart');

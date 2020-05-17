@@ -8,21 +8,18 @@
         <li class="active">
             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                 <i class="fas fa-home"></i>
-                Products
+                Товары
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu">
                 <li>
-                    <a href="{{url('/operator/products/new')}}">New</a>
-                </li>
-                <li>
-                    <a href="#">Catalog</a>
+                    <a href="{{url('/admin/products/list')}}">Список</a>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="{{url('/admin/orders')}}">
                 <i class="fas fa-briefcase"></i>
-                About
+                Заказы
             </a>
             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                 <i class="fas fa-copy"></i>

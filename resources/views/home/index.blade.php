@@ -13,12 +13,12 @@
     <!-- CSS here -->
     <link rel="stylesheet" href="/css/home/main_page/bootstrap.min.css">
     <link rel="stylesheet" href="/css/home/main_page/owl.carousel.min.css">
-    <link rel="stylesheet" href="/css/home/main_page/flaticon2.css">
+    {{--<link rel="stylesheet" href="/css/home/main_page/flaticon2.css">--}}
     <link rel="stylesheet" href="/css/home/main_page/slicknav.css">
     <link rel="stylesheet" href="/css/home/main_page/animate.min.css">
     <link rel="stylesheet" href="/css/home/main_page/magnific-popup.css">
     <link rel="stylesheet" href="/css/home/main_page/fontawesome-all.min.css">
-    <link rel="stylesheet" href="/css/home/main_page/themify-icons.css">
+    {{--<link rel="stylesheet" href="/css/home/main_page/themify-icons.css">
     {{--<link rel="stylesheet" href="/css/home/main_page/slick.css">--}}
    {{-- <link rel="stylesheet" href="/css/home/main_page/nice-select.css">--}}
     <link rel="stylesheet" href="/css/home/main_page/style.css">
@@ -86,6 +86,10 @@
 <script src="/js/home/main_page/jquery.validate.min.js"></script>
 <script src="/js/home/main_page/mail-script.js"></script>
 <script src="/js/home/main_page/jquery.ajaxchimp.min.js"></script>
+
+<!-- bootbox code -->
+<script src="/js/vendor/bootbox.min.js"></script>
+<script src="/js/vendor/bootbox.locales.min.js"></script>
 
 <!-- Jquery Plugins, main Jquery -->
 <script src="/js/home/main_page/plugins.js"></script>

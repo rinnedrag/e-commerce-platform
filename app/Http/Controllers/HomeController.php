@@ -48,8 +48,11 @@ class HomeController extends Controller
         return view('home.home');
     }
 
-    public function catalog()
+    public function catalogPage(Request $request)
     {
+        $filterParameters = $request->all();
+        $footwear = (new FootwearService())->getCatalog(collect($filterParameters));
+
         return view('home.catalog')
             ->with('categories', FootwearKind::all())
             ->with('clasp_kinds', ClaspKind::all())
@@ -60,8 +63,14 @@ class HomeController extends Controller
             ->with('heel_kinds', HeelKind::all())
             ->with('materials', Material::all())
             ->with('sizes', Size::all())
-            ->with('footwear', (new FootwearService())->getCatalog());
+            ->with('footwear', $footwear);
 
+    }
+
+    public function catalogData(Request $request)
+    {
+        $filterParameters = $request->all();
+        return response()->json((new FootwearService())->getCatalog(collect($filterParameters)), 200);
     }
 
     public function productPage($id) {
@@ -87,6 +96,22 @@ class HomeController extends Controller
             ->with('sizes', $sizes)
             ->with('colors', $availableColors);
     }
+
+    public function productData($id) {
+        $images = FootwearImage::where('model_id', $id)->select(['model_id', 'filename'])->get();
+        $sizes = FootwearModelSize::where('model_id', $id)->get();
+        $model_details = FootwearModel::where('id', $id)->select('price')->first();
+
+        $response = collect(
+          [
+              'images' => $images,
+              'sizes' => $sizes,
+              'model_details' => $model_details
+          ]
+        );
+        return response()->json($response, 200);
+    }
+
 
     public function profile() {
         return view('home.profile');

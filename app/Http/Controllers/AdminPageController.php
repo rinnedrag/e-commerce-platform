@@ -11,6 +11,7 @@ use App\FootwearBrand;
 use App\FootwearKind;
 use App\HeelKind;
 use App\Material;
+use App\Order;
 use App\Services\FootwearService;
 use App\Size;
 use Illuminate\Http\Request;
@@ -23,8 +24,12 @@ class AdminPageController extends Controller
         $this->middleware('role:admin');
     }
 
+    public function broadcast() {
+        return view('admin.broadcast');
+    }
+
     public function newProductPage() {
-        return view('admin.home')
+        return view('admin.createProduct')
             ->with('footwear_kinds', FootwearKind::all())
             ->with('clasp_kinds', ClaspKind::all())
             ->with('colors', Color::all())
@@ -36,6 +41,16 @@ class AdminPageController extends Controller
             ->with('sizes', Size::all());
     }
     //
+
+    public function productList() {
+        return view('admin.productList')
+            ->with('footwear', (new FootwearService())->getCatalog([]));
+    }
+
+    public function getOrders() {
+        return view('admin.orderList')
+            ->with('orders', Order::where('order_status', 'accepted')->get());
+    }
 
     public function createProduct(Request $request) {
         $data = $request->all();
