@@ -17,6 +17,7 @@ use App\HeelKind;
 use App\Material;
 use App\Services\FootwearService;
 use App\Size;
+use App\User;
 use Arr;
 use DB;
 use Illuminate\Database\Eloquent\Collection;
@@ -51,7 +52,7 @@ class HomeController extends Controller
     public function catalogPage(Request $request)
     {
         $filterParameters = $request->all();
-        $footwear = (new FootwearService())->getCatalog(collect($filterParameters));
+        $footwear = (new FootwearService())->getCatalog(collect($filterParameters))->get();
 
         return view('home.catalog')
             ->with('categories', FootwearKind::all())
@@ -70,7 +71,7 @@ class HomeController extends Controller
     public function catalogData(Request $request)
     {
         $filterParameters = $request->all();
-        return response()->json((new FootwearService())->getCatalog(collect($filterParameters)), 200);
+        return response()->json((new FootwearService())->getCatalog(collect($filterParameters))->get(), 200);
     }
 
     public function productPage($id) {
@@ -114,6 +115,6 @@ class HomeController extends Controller
 
 
     public function profile() {
-        return view('home.profile');
+        return view('home.profile')->with('user', User::where('id', \Auth::id())->first());
     }
 }

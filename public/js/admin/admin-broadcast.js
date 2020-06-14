@@ -1,5 +1,3 @@
-/** constants **/
-
 const ws = new WebSocket('wss://mediaserver.loclx.io/call');
 let videoInput;
 let videoOutput;
@@ -8,6 +6,7 @@ let from;
 let to;
 let current_user;
 
+let registerName = null;
 let registerState = null;
 const NOT_REGISTERED = 0;
 const REGISTERING = 1;
@@ -86,14 +85,10 @@ window.onload = function() {
     videoOutput = document.getElementById('videoOutput');
     //document.getElementById('name').focus();
 }
-/** ОБРАБОТЧИК ЗАКРЫТИЯ СОЕДИНЕНИЯ ПЕРЕД ЗАКРЫТИЕМ СТРАНЦИЦЫ **/
 
-window.onbeforeunload = function (evt) {
-    ws.close()
+window.onbeforeunload = function() {
+    ws.close();
 }
-
-
-/** прослушивание событий по web-сокетам **/
 
 ws.onmessage = function(message) {
     let parsedMessage = JSON.parse(message.data);
@@ -122,9 +117,6 @@ ws.onmessage = function(message) {
         case 'playEnd':
             playEnd();
             break;
-        case 'allAdminsAreBusy':
-            alert('Все операторы в данный момент заняты, попробуйте позже');
-            break;
         case 'iceCandidate':
             webRtcPeer.addIceCandidate(parsedMessage.candidate, function(error) {
                 if (error)
@@ -136,62 +128,19 @@ ws.onmessage = function(message) {
     }
 }
 
-/** подключение пользователя - registration **/
-
-function register() {
-    current_user = $('meta[name="user_id"]').attr('content');
-    setRegisterState(REGISTERING);
-
-    let message = {
-        id : 'register',
-        role: 'user',
-        name : current_user
-    };
-    sendMessage(message);
-}
-
 function registerResponse(message) {
     if (message.response === 'accepted') {
         setRegisterState(REGISTERED);
+        alert('registered');
+        //document.getElementById('peer').focus();
     } else {
         setRegisterState(NOT_REGISTERED);
         let errorMessage = message.response ? message.response
             : 'Unknown reason for register rejection.';
-        //console.log(errorMessage);
-        document.getElementById('name').focus();
+        console.log(errorMessage);
+        //document.getElementById('name').focus();
         alert('Error registering user. See console for further information.');
     }
-}
-/** CALL **/
-
-function call() {
-    setCallState(DISABLED);
-    //showSpinner(videoInput, videoOutput);
-
-    let options = {
-        localVideo : videoInput,
-        remoteVideo : videoOutput,
-        onicecandidate : onIceCandidate
-    }
-    webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
-        function(error) {
-            if (error) {
-                return console.error(error);
-            }
-            this.generateOffer(onOfferCall);
-        });
-}
-
-function onOfferCall(error, offerSdp) {
-    if (error)
-        return console.error('Error generating the offer ' + error);
-    //console.log('Invoking SDP offer callback function');
-    let message = {
-        id : 'call',
-        from : current_user,
-        sdpOffer : offerSdp
-    };
-    sendMessage(message);
 }
 
 function callResponse(message) {
@@ -221,9 +170,10 @@ function startCommunication(message) {
 
 function playResponse(message) {
     if (message.response !== 'accepted') {
-        //hideSpinner(videoOutput);
+        hideSpinner(videoOutput);
         document.getElementById('videoSmall').style.display = 'block';
         alert(message.error);
+        document.getElementById('peer').focus();
         setCallState(POST_CALL);
     } else {
         setCallState(IN_PLAY);
@@ -235,22 +185,10 @@ function playResponse(message) {
 }
 
 function incomingCall(message) {
-    // If bussy just reject without disturbing user
-    if (callState !== NO_CALL && callState !== POST_CALL) {
-        let response = {
-            id : 'incomingCallResponse',
-            from : message.from,
-            to: message.to,
-            callResponse : 'reject',
-            message : 'busy'
-        };
-        return sendMessage(response);
-    }
-
     setCallState(DISABLED);
     if (confirm('User ' + message.from
         + ' is calling you. Do you accept the call?')) {
-        //showSpinner(videoInput, videoOutput);
+        showSpinner(videoInput, videoOutput);
 
         from = message.from;
         const options = {
@@ -291,12 +229,65 @@ function onOfferIncomingCall(error, offerSdp) {
     sendMessage(response);
 }
 
-/** PLAY **/
+function register() {
+    current_user = $('meta[name="user_id"]').attr('content');
+    setRegisterState(REGISTERING);
+
+    let message = {
+        id : 'register',
+        role: 'admin',
+        name : current_user
+    };
+    sendMessage(message);
+}
+
+function call() {
+    if (document.getElementById('peer').value === '') {
+        document.getElementById('peer').focus();
+        window.alert('You must specify the peer name');
+        return;
+    }
+    setCallState(DISABLED);
+    showSpinner(videoInput, videoOutput);
+
+    let options = {
+        localVideo : videoInput,
+        remoteVideo : videoOutput,
+        onicecandidate : onIceCandidate
+    }
+    webRtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv(options,
+        function(error) {
+            if (error) {
+                return console.error(error);
+            }
+            this.generateOffer(onOfferCall);
+        });
+}
+
+function onOfferCall(error, offerSdp) {
+    if (error)
+        return console.error('Error generating the offer ' + error);
+    //console.log('Invoking SDP offer callback function');
+    let message = {
+        id : 'call',
+        from : current_user,
+        to : document.getElementById('peer').value,
+        sdpOffer : offerSdp
+    };
+    sendMessage(message);
+}
 
 function play() {
+    let peer = document.getElementById('peer').value;
+    if (peer === '') {
+        window.alert("You must insert the name of the user recording to be played (field 'Peer')");
+        document.getElementById('peer').focus();
+        return;
+    }
+
     document.getElementById('videoSmall').style.display = 'none';
     setCallState(DISABLED);
-    //showSpinner(videoOutput);
+    showSpinner(videoOutput);
 
     let options = {
         remoteVideo : videoOutput,
@@ -323,11 +314,9 @@ function onOfferPlay(error, offerSdp) {
 
 function playEnd() {
     setCallState(POST_CALL);
-    //hideSpinner(videoInput, videoOutput);
+    hideSpinner(videoInput, videoOutput);
     document.getElementById('videoSmall').style.display = 'block';
 }
-
-/** STOP **/
 
 function stop(message) {
     let stopMessageId = (callState === IN_CALL) ? 'stop' : 'stopPlay';
@@ -344,19 +333,15 @@ function stop(message) {
             sendMessage(message);
         }
     }
-    //hideSpinner(videoInput, videoOutput);
+    hideSpinner(videoInput, videoOutput);
     document.getElementById('videoSmall').style.display = 'block';
 }
-
-/**Send a message to Server**/
 
 function sendMessage(message) {
     let jsonMessage = JSON.stringify(message);
     //console.log('Sending message: ' + jsonMessage);
     ws.send(jsonMessage);
 }
-
-/**Ice Candidate**/
 
 function onIceCandidate(candidate) {
     //console.log('Local candidate ' + JSON.stringify(candidate));
@@ -368,8 +353,6 @@ function onIceCandidate(candidate) {
     };
     sendMessage(message);
 }
-
-/**Spinner**/
 
 function showSpinner() {
     for (let i = 0; i < arguments.length; i++) {

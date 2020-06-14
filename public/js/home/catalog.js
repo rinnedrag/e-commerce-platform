@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('.selectpicker').selectpicker();
 })
 
-let url = "http://127.0.0.1:8000";
+let url = '';
 /* Filter Parameters */
 
 function getFilterParams() {
@@ -38,7 +38,6 @@ function replaceCatalog(result) {
         content += "<div class=\"col-lg-4 col-sm-6\">\n" +
             " <div class=\"product-item\">\n" +
             "   <div class=\"pi-pic\">\n" +
-            "     <div class=\"tag-sale\">ON SALE</div>\n" +
             "        <a  href='"+ url +"/product/" + item.id + "'>\n" +
             "           <img src='/storage/images/footwear/"+ item.id + '/'+ item.filename +"' alt=\"\"></a>\n" +
             "              <div class=\"pi-links\">\n" +

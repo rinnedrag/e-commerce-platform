@@ -1,21 +1,17 @@
-let url="http://127.0.0.1:8000"
+let url = '';
 
 $('input[name="cs"]').change(function() {
     let modelID = $('input[name="cs"]:checked').val();
-    $.ajax({
-        url: url+"/product/" + modelID + "/data",
-        type : "GET",
-        success : function (result) {
-            changeImages(result.images);
-            changeSizes(result.sizes);
-            changeModelDetails(result.model_details);
-        },
-        error: function(xhr, resp, text) {
-            // вывести ошибку в консоль
-            console.log(xhr, resp, text);
-        }
-    });
+    location.href = url+'/product/'+modelID
 });
+
+$('input[name="sc"]').change(function() {
+    let ID = $('input[name="sc"]:checked').attr('id');
+    let str = ID.split('-');
+    $('#modelsCount').html(str[1]);
+});
+/*
+
 
 $('input[name="sc"]').change(function() {
     alert('helo');
@@ -50,12 +46,12 @@ function changeSizes(sizes) {
 
 function changeImages(images) {
     let content =
-        "<div class=\"product-pic-zoom\">\n" +
-        "  <img class=\"product-big-img\" " +
-        "src='/storage/images/footwear/"+ images[0].model_id+"/" + images[0].filename +"' alt=\"\">\n" +
+        "<div class='product-pic-zoom'>\n" +
+        "  <img class='product-big-img' " +
+        "src='/storage/images/footwear/"+ images[0].model_id+"/" + images[0].filename +"' alt=''>\n" +
         "</div>\n" +
-        "<div class=\"product-thumbs\" tabindex=\"1\" style=\"overflow: hidden; outline: none;\">\n" +
-        "   <div class=\"product-thumbs-track\">\n";
+        "<div class='product-thumbs' tabindex='1' style='overflow: hidden; outline: none;'>\n" +
+        "   <div class='product-thumbs-track'>\n";
     let firstIteration = true;
     for (let image of images) {
         let active = '';
@@ -64,13 +60,42 @@ function changeImages(images) {
             firstIteration = false;
         }
         content +=
-            "<div class='pt "+ active +"' data-imgbigurl='/storage/images/footwear/"+ image.model_id+"/thumb-" +image.filename +"'>\n" +
-            "  <img src='/storage/images/footwear/"+ image.model_id+"/thumb-" +image.filename +"' alt=\"\"></div>"
+            "<div class='pt "+ active +"' data-imgbigurl='/storage/images/footwear/"+ image.model_id+"/" +image.filename +"'>\n" +
+            "  <img src='/storage/images/footwear/"+ image.model_id+"/thumb-" +image.filename +"' alt=\"\">" +
+            "</div>"
     }
     content +=
-        "</div>\n</div>\n";
+        "</div>\n</div>\n</div>\n";
     $('#images').html(content);
-}
+
+    /!*------------------
+		Single Product
+	--------------------*!/
+    $('.product-thumbs-track > .pt').on('click', function(){
+        $('.product-thumbs-track .pt').removeClass('active');
+        $(this).addClass('active');
+        var imgurl = $(this).data('imgbigurl');
+        var bigImg = $('.product-big-img').attr('src');
+        if(imgurl != bigImg) {
+            $('.product-big-img').attr({src: imgurl});
+            $('.zoomImg').attr({src: imgurl});
+        }
+    });
+
+
+    $('.product-pic-zoom').zoom();
+
+    /!*------------------
+            ScrollBar
+        --------------------*!/
+    $(".cart-table-warp, .product-thumbs").niceScroll({
+        cursorborder:"",
+        cursorcolor:"#afafaf",
+        boxzoom:false
+    });
+}*/
+
+
 /* 8. sildeBar scroll */
 $.scrollUp({
     scrollName: 'scrollUp', // Element ID

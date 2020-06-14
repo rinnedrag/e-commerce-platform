@@ -33,7 +33,7 @@ class FootwearImage extends Model
     protected $table = 'footwear_images';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['model_id', 'filename'];
+    protected $fillable = ['model_id', 'filename', 'is_main'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function footwearModel() {

@@ -6,19 +6,17 @@
                 <div class="container-fluid">
                     <div class="row align-items-center">
                         <!-- Logo -->
-                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
-                            <div class="logo">
-                                <a href="index.html"><img src="/images/home/img/logo/logo.png" alt=""></a>
-                            </div>
+                        <div class="logo col-xl-1 col-lg-1 col-md-1 col-sm-3">
+                            <a href="{{url('/home')}}"><img src="/images/home/img/logo/logo.png" width="100%" alt=""></a>
                         </div>
                         <div class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
                             <!-- Main-menu -->
                             <div class="main-menu f-right d-none d-lg-block">
                                 <nav>
-                                    <ul id="navigation">
+                                    <ul id="navigation" style="font-family: 'Font Awesome 5 Brands', serif; font-weight: bold">
                                         <li><a href="{{url('/home')}}">Главная</a></li>
                                         <li><a href="{{url('/catalog')}}">Каталог</a></li>
-                                        <li class="hot"><a href="#">Новинки</a>
+                                        {{--<li class="hot"><a href="#">Новинки</a>
                                             <ul class="submenu">
                                                 <li><a href="product_list.html"> Product list</a></li>
                                                 <li><a href="single-product.html"> Product Details</a></li>
@@ -30,10 +28,11 @@
                                                 <li><a href="single-blog.html">Blog Details</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="contact.html">Контакты</a></li>
+                                        <li><a href="contact.html">Контакты</a></li>--}}
                                         @guest
                                             @else
                                             <li><a href="{{url('/profile')}}">Профиль</a></li>
+                                            <li><a href="{{url('/broadcast')}}">Онлайн-консультант</a></li>
                                         @endguest
                                     </ul>
                                 </nav>

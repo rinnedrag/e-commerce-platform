@@ -25,15 +25,16 @@
                     <td>@if ($order->is_paid) Да @else Нет @endif </td>
                     <th>{{$order->order_status}}</th>
                     <td>
-                        <!-- кнопка чтения товара -->
-                        <button class='btn btn-primary m-r-10px read-one-order-button'>
+                        <!-- кнопка просмотра заказа -->
+                        <a href="{{url('/admin/orders/'.$order->id)}}" class='btn btn-primary m-r-10px read-one-order-button'>
                             <i class="fas fa-eye"></i>
                             <span>Просмотр</span>
-                        </button>
+                        </a>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+        {{$orders->withQueryString()->links()}}
     </div>
 @endsection

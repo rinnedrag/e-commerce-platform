@@ -84,9 +84,8 @@
 
 @section('additionalJS')
     <script>
+        let url = '';
         $(document).ready(function () {
-            let $url = "http://127.0.0.1:8000";
-
             $('input[name$="-quantity"]').on('change', function (event) {
                 event.preventDefault();
                 let $quantity = $(this).val();
@@ -108,7 +107,7 @@
                 $('#totalAmount').html(totalAmount);
 
                 $.ajax({
-                    url: $url+"/cart/update/"+$splitted_name[0],
+                    url: url+"/cart/update/"+$splitted_name[0],
                     type : "PUT",
                     contentType : 'application/json',
                     data: $data,
@@ -128,7 +127,7 @@
                 let $splitted_id = $id.split('-');
 
                 $.ajax({
-                    url: $url+"/cart/delete/"+$splitted_id[0]+'?size='+$splitted_id[1],
+                    url: url+"/cart/delete/"+$splitted_id[0]+'?size='+$splitted_id[1],
                     type : "DELETE",
                     success : function(result) {
                         // продукт был создан, вернуться к списку продуктов

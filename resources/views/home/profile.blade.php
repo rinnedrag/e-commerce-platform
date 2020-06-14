@@ -26,7 +26,7 @@
                                         <div class="form-group row">
                                             <label for="name" class="col-md-4 col-form-label">Имя</label>
                                             <div class="col-8">
-                                                <input id="name" name="name" placeholder="Имя" class="form-control here" type="text">
+                                                <input id="name" name="name" value="{{$user->first_name}}" class="form-control here" type="text">
                                             </div>
                                         </div>
 
@@ -46,14 +46,14 @@
                                         <div class="form-group row">
                                             <label for="email" class="col-md-4 col-form-label">Email</label>
                                             <div class="col-8">
-                                                <input id="email" name="email" placeholder="Email"
+                                                <input id="email" name="email" value="{{$user->email}}"
                                                        class="form-control here" type="email" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="newpass" class="col-md-4 col-form-label">Пароль</label>
                                             <div class="col-8">
-                                                <input id="newpass" type="password" name="newpass" placeholder="Пароль"
+                                                <input id="newpass" type="password" name="newpass" value="***"
                                                        class="form-control here" readonly>
                                             </div>
                                         </div>

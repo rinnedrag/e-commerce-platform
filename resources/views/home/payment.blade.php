@@ -14,6 +14,7 @@
 <div class="container" style="margin-top: 200px">
     <div class="row">
         <!-- Display a payment form -->
+        <input type="text" id="email" placeholder="Email адрес" />
         <div id="total" class="col-12" style="margin-bottom: 10px">
             <span>Сумма к оплате: </span><a>{{$order->total}} <i class="fas fa-ruble-sign"></i></a>
         </div>
@@ -40,7 +41,7 @@
     let purchase = {
         items: [{ id: {{$order->id}} }]
     };
-    let url = 'http://127.0.0.1:8000'
+    let url = '';
     // Disable the button until we have Stripe set up on the page
     document.querySelector("button").disabled = true;
     fetch(url+"/pay", {
@@ -98,6 +99,7 @@
         loading(true);
         stripe
             .confirmCardPayment(clientSecret, {
+                receipt_email: document.getElementById('email').value,
                 payment_method: {
                     card: card
                 }

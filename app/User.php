@@ -35,6 +35,16 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property string|null $phone_number
+ * @property string|null $address
+ * @property int|null $postcode
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePostcode($value)
  */
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -47,7 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'first_name', 'last_name', 'address', 'postcode', 'email', 'password', 'role'
     ];
 
     /**

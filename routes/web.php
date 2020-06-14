@@ -17,10 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/admin')->group(function (){
     Route::prefix('/products')->group(function (){
         Route::get('/new', 'AdminPageController@newProductPage');
+        Route::get('/list/{id}', 'AdminPageController@getProduct');
+        Route::put('/list/{id}', 'AdminPageController@updateProduct');
+        Route::delete('/list/{id}', 'AdminPageController@deleteProduct');
         Route::get('/list', 'AdminPageController@productList');
         Route::post('/create', 'AdminPageController@createProduct');
     });
     Route::get('/orders', 'AdminPageController@getOrders');
+    Route::get('/orders/{id}', 'AdminPageController@getOrderPage');
+    Route::put('/orders/{id}/update/status', 'AdminPageController@updateOrderStatus');
     Route::get('/broadcast', 'AdminPageController@broadcast');
 });
 
@@ -51,4 +56,5 @@ Route::prefix('/cart')->group(function () {
     Route::delete('/delete/{id}', 'CartController@deleteFrom');
 });
 
-Route::get('/broadcast', 'BroadcastController@videochatPage');
+Route::get('/broadcast', 'BroadcastController@videochatPage')->middleware('auth')->middleware('role:user');;
+Route::post('/video/save', 'BroadcastController@saveVideoLink');

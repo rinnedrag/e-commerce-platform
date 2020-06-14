@@ -30,8 +30,8 @@
                 <div class="col-lg-6 product-details">
                     <h2 class="p-title"><b>{{$model['brand']}}</b> \ {{$model['kind']}}</h2>
                     <h3 class="p-price"> <span id="price">{{$model['price']}}</span> &#8381;</h3>
-                    <h4 class="p-stock">Доступно моделей: <span id="modelsCount">на складе</span></h4>
-                    <div class="p-rating">
+                    <h4 class="p-stock" style="font-size: large">Доступно моделей: <span id="modelsCount">на складе</span></h4>
+                    {{--<div class="p-rating">
                         <i class="fa fa-star-o"></i>
                         <i class="fa fa-star-o"></i>
                         <i class="fa fa-star-o"></i>
@@ -40,13 +40,13 @@
                     </div>
                     <div class="p-review">
                         <a href="">3 отзыва</a>|<a href="">Оставить отзыв</a>
-                    </div>
-                    <div class="fw-color-choose">
+                    </div>--}}
+                    <div class="fw-color-choose" style="margin-top: 10px">
                         <p>Цвет</p>
                         @foreach($colors as $color)
                             <div class="cs-item">
                                 <input type="radio" name="cs" value="{{$color['id']}}" id="radio-{{$color['color']}}"
-                                       @if ($color['color'] == $model['color']) checked @endif >
+                                       @if ($color['color'] == $model['color']) checked @endif autocomplete="off">
                                 <label title="{{$color['color']}}" style="background: {{$color['code']}};
                                 @if ($color['code'] == "#ffffff") border:1px solid #868c98 @endif" for="radio-{{$color['color']}}">
                                 </label>
@@ -58,15 +58,15 @@
                         <p>Размер</p>
                         @foreach($sizes as $modelSize)
                             <div class="sc-item">
-                                <input type="radio" name="sc" value="{{$modelSize->size}}" id="{{$modelSize->size}}"
+                                <input type="radio" name="sc" value="{{$modelSize->size}}" id="{{$modelSize->size}}-{{$modelSize->count}}"
                                        @if (!$modelSize->count) disabled @elseif ($loop->first) checked @endif >
-                                <label for="{{$modelSize->size}}">{{$modelSize->size}}</label>
+                                <label for="{{$modelSize->size}}-{{$modelSize->count}}">{{$modelSize->size}}</label>
                             </div>
                         @endforeach
                     </div>
                     <div class="quantity">
                         <p>Количество</p>
-                        <div class="pro-qty"><input type="text" name="quantity" value="1"></div>
+                        <div class="pro-qty"><input type="text" name="quantity" value="1" min="1"></div>
                     </div>
                     <button id="addToCart" class="site-btn">Добавить в корзину</button>
                     <div id="accordion" class="accordion-area">
@@ -145,7 +145,7 @@
                             <div id="collapse3" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                                 <div class="panel-body">
                                     <img src="/images/home/diviz/cards.png" alt="">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integer bibendum sodales arcu id te mpus. Ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
+                                    <p>Оплату можно произвести по банковской карте</p>
                                 </div>
                             </div>
                         </div>
@@ -156,9 +156,12 @@
                             </div>
                             <div id="collapse4" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
                                 <div class="panel-body">
-                                    <h4>7 Days Returns</h4>
-                                    <p>Cash on Delivery Available<br>Home Delivery <span>3 - 4 days</span></p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integer bibendum sodales arcu id te mpus. Ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
+                                    <h4>Доступные способы</h4>
+                                    <p>
+                                        Самовывоз: <span>1-4 дня</span><br>
+                                        Курьерская доставка: <span>1-2 дня</span><br>
+                                        Почта России
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -185,13 +188,20 @@
     <script src="/js/home/productPage.js"></script>
     <script>
         $(document).ready(function() {
-            let $url = "http://127.0.0.1:8000";
+            let ID = $('input[name="sc"]:checked').attr('id');
+            let str = ID.split('-');
+            $('#modelsCount').html(str[1]);
 
             $('#addToCart').on('click', function (event) {
                 event.preventDefault();
                 let $model = $('input[name="cs"]:checked').val();
                 let $size = $('input[name="sc"]:checked').val();
                 let $quantity = $('input[name="quantity"]').val();
+
+                if (parseInt($('#modelsCount').text()) < $quantity) {
+                    alert('Недостаточно моделей на складе');
+                    return;
+                }
 
                 let $data = JSON.stringify({
                     "size": $size,
@@ -201,7 +211,7 @@
                     });
 
                 $.ajax({
-                    url: $url+"/cart/add/"+$model,
+                    url: url+"/cart/add/"+$model,
                     type : "POST",
                     contentType : 'application/json',
                     data: $data,

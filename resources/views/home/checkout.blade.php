@@ -28,6 +28,10 @@
                                 <input type="text" class="form-control" id="add2" name="address" required
                                 placeholder="Адрес*"/>
                             </div>
+                            <div class="col-md-12 form-group p_star address-info">
+                                <input type="number" class="form-control" id="add2" name="postcode" required
+                                       placeholder="Почтовый индекс"/>
+                            </div>
                             <div class="col-md-12 form-group">
                                 <div class="creat_account">
                                     <h3>Условия доставки</h3>
@@ -39,6 +43,10 @@
                                     <div>
                                         <input type="radio" name="shipping" value="Самовывоз" autocomplete="off">
                                         <label>Самовывоз</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="shipping" value="Почта России" autocomplete="off">
+                                        <label>Почта России</label>
                                     </div>
                                 </div>
                                 <textarea class="form-control" name="comment" id="message" rows="1"

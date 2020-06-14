@@ -1,4 +1,4 @@
-let url = 'http://127.0.0.1:8000'
+let url = '';
 
 $('input[name="shipping"]').change(function (event) {
     event.preventDefault();
@@ -9,6 +9,9 @@ $('input[name="shipping"]').change(function (event) {
     switch (shipping) {
         case 'Курьерская доставка':
             shippingPrice = 300.00;
+            break;
+        case 'Почта России':
+            shippingPrice = 1000.00;
             break;
         case 'Самовывоз':
             shippingPrice = 0.00;

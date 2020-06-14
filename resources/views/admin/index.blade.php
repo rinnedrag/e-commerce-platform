@@ -12,7 +12,8 @@
     <!-- Bootstrap CSS CDN -->
     <link media="screen" rel="stylesheet" type="text/css" href="{{ mix("/css/app.css") }}" >
     <link media="screen" rel="stylesheet" type="text/css" href="{{ mix("/css/vendor/multi-select.css") }}" >
-    <link media="screen" rel="stylesheet" type="text/css" href="{{ mix("/css/vendor/bootstrap-multiselect.css") }}" >
+    <link media="screen" rel="stylesheet" type="text/css" href="/css/vendor/bootstrap-multiselect.css" >
+    <link rel="stylesheet" href="/css/home/main_page/magnific-popup.css">
     <!-- Our Custom CSS -->
 
     @section('additional')
@@ -26,6 +27,8 @@
 </head>
 
 <body>
+
+@include('home.layouts.preloader')
 
 <div class="wrapper">
     <!-- Sidebar  -->
@@ -65,19 +68,22 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="{{ mix('/js/app.js') }}" type="text/javascript"></script>
+<script src="/js/home/main_page/jquery-3.2.1.min.js"></script>
+<script src="/js/home/main_page/popper.min.js"></script>
+<script src="/js/home/main_page/bootstrap.min.js"></script>
 
 <!-- jQuery Custom Scroller CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="{{ mix('/js/vendor/jquery.multi-select.js') }}" type="text/javascript"></script>
-<script src="{{ mix('/js/vendor/bootstrap-multiselect.js') }}" type="text/javascript"></script>
+<script src="/js/vendor/bootstrap-multiselect.js" type="text/javascript"></script>
 <!-- bootbox code -->
 <script src="/js/vendor/bootbox.min.js"></script>
 <script src="/js/vendor/bootbox.locales.min.js"></script>
+<script src="/js/home/main_page/jquery.magnific-popup.js"></script>
 
 <script src="/js/admin/admin-home.js"></script>
+@section('additionalJS')
+@show
 <script type="text/javascript">
     $.ajaxSetup({
         headers: {

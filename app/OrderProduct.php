@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderProduct whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderProduct whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $size
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderProduct whereSize($value)
  */
 class OrderProduct extends Model
 {

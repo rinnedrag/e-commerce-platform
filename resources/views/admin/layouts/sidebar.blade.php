@@ -1,26 +1,29 @@
 <nav id="sidebar" >
     <div class="sidebar-header">
         <h3>Admin Panel</h3>
-        <strong>BS</strong>
+        <strong>Smiths</strong>
     </div>
 
     <ul class="list-unstyled components">
-        <li class="active">
-            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <li>
+            <a href="{{url('/admin/products/list?page=1')}}">
                 <i class="fas fa-home"></i>
                 Товары
             </a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
-                <li>
-                    <a href="{{url('/admin/products/list')}}">Список</a>
-                </li>
-            </ul>
         </li>
         <li>
-            <a href="{{url('/admin/orders')}}">
+            <a href="{{url('/admin/orders?page=1')}}">
                 <i class="fas fa-briefcase"></i>
                 Заказы
             </a>
+        </li>
+        <li>
+            <a href="{{url('/admin/broadcast')}}">
+                <i class="fas fa-video"></i>
+                Видеочат
+            </a>
+        </li>
+        {{--<li>
             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                 <i class="fas fa-copy"></i>
                 Pages
@@ -36,25 +39,7 @@
                     <a href="#">Page 3</a>
                 </li>
             </ul>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fas fa-image"></i>
-                Portfolio
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fas fa-question"></i>
-                FAQ
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fas fa-paper-plane"></i>
-                Contact
-            </a>
-        </li>
+        </li>--}}
     </ul>
 
 </nav>

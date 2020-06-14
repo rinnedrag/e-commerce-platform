@@ -8,6 +8,7 @@ use App\FootwearImage;
 use App\FootwearMaterial;
 use App\FootwearModel;
 use App\FootwearModelSize;
+use App\OrderProduct;
 use DB;
 use Image;
 use Str;
@@ -27,9 +28,20 @@ class FootwearService
             'description' => $data['description']
         ];
         $newModel = FootwearData::create($footwearData);
-        $path = 'storage/images/footwear/';
 
-        $images = collect([]);
+        $materials = collect([]);
+        foreach ($data['materials'] as $material) {
+            $materials->push([
+                'footwear_id' => $newModel->id,
+                'component' => $material['component'],
+                'material' => $material['material'],
+                'percent' => $material['percent']/100
+            ]);
+        }
+
+        $newModel->materials()->createMany($materials);
+        $path = 'public/images/footwear/';
+
         foreach ($data['colors'] as $color) {
             $footwearModel = FootwearModel::create([
                 'footwear_id' => $newModel->id,
@@ -47,28 +59,19 @@ class FootwearService
             }
             $footwearModel->sizes()->createMany($sizes);
 
+            $images = collect([]);
             foreach ($color['images'] as $image) {
                  $uuid = (string)Str::uuid().'.jpeg';
-                 $path = $image->storeAs($path, $uuid);
+                 $image->storeAs($path.$footwearModel->id, $uuid);
 
                  // open and resize an image file
-                 $img = Image::make($path.$footwearModel->id.'/'.$uuid)->resize(116, 116);
+                 $img = Image::make('storage/images/footwear/'.$footwearModel->id.'/'.$uuid)->resize(116, 116);
                  // save file as jpg with medium quality
-                 $img->save($path.'thumb-'.$uuid, 60);
+                 $img->save('storage/images/footwear/'.$footwearModel->id.'/thumb-'.$uuid, 60);
 
                  $images->push(['filename' => $uuid, 'model_id' => $footwearModel->id]);
             }
-
             $footwearModel->images()->createMany($images);
-        }
-
-        foreach ($data['materials'] as $material) {
-            $newModel->materials()->create([
-                'footwear_id' => $newModel->id,
-                'component' => $material['component'],
-                'material' => $material['material'],
-                'percent' => $material['percent']/100
-            ]);
         }
 
         return $newModel->id;
@@ -83,7 +86,7 @@ class FootwearService
     }
 
     public function getCatalog($filterParameters) {
-        $images = FootwearImage::select(['model_id', DB::raw('MAX(filename) as filename')])->groupBy('model_id');
+        $images = FootwearImage::where('is_main', '=',true)->select(['model_id', 'filename']);
         $query = DB::table('footwear_models')->joinSub($images, 'images', function($join) {
             $join->on('footwear_models.id', '=', 'images.model_id');
         })->join('footwear_data', 'footwear_data.id','=','footwear_models.footwear_id')
@@ -115,7 +118,7 @@ class FootwearService
             $query = $query->whereBetween('footwear_models.price', [$min_price, $max_price]);
         }
 
-        return $query->get();
+        return $query;
     }
 
     public function getFootwearCart($cart) {
@@ -138,5 +141,16 @@ class FootwearService
         return FootwearModel::whereIn('footwear_models.id', $footwearIds)
             ->join('footwear_data', 'footwear_data.id', '=','footwear_models.footwear_id')
             ->select('footwear_models.id', 'footwear_models.price')->get();
+    }
+
+    public function getFootwearDetailsForOrder($id) {
+        $images = FootwearImage::select(['model_id', DB::raw('MAX(filename) as filename')])->groupBy('model_id');
+        return DB::table('order_products')->joinSub($images, 'images', function($join) {
+            $join->on('order_products.product_id', '=', 'images.model_id');})
+            ->join('footwear_models', 'footwear_models.id','=','order_products.product_id')
+            ->join('footwear_data', 'footwear_data.id','=','footwear_models.footwear_id')
+            ->select('images.filename', 'order_products.*', 'footwear_models.color',
+            'footwear_data.kind', 'footwear_data.brand')
+            ->where('order_products.order_id',  $id)->get();
     }
 }

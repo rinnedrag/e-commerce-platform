@@ -117,7 +117,7 @@
                             <div class="col-lg-4 col-sm-6">
                                 <div class="product-item">
                                     <div class="pi-pic">
-                                        <div class="tag-sale">ON SALE</div>
+                                        {{--<div class="tag-sale">ON SALE</div>--}}
                                         <a  href="{{url('product/'.$model->id)}}">
                                             <img src="/storage/images/footwear/{{$model->id}}/{{$model->filename}}" alt=""></a>
                                         <div class="pi-links">
@@ -150,7 +150,7 @@
     <script src="/js/home/catalog.js"></script>
     <script>
         $(document).ready(function() {
-            let $url = "http://127.0.0.1:8000";
+            let url = location.host;
 
             /*$('input[name="cs"]:checked').on('change', function (event) {
                    $('#modelsCount').replaceWith('<span id="modelsCount"></span>');

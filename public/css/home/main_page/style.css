@@ -2484,7 +2484,6 @@ header {
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  padding-top: 6px;
   -webkit-transition: .6s;
   -o-transition: .6s;
   transition: .6s;
@@ -2492,7 +2491,7 @@ header {
 
 /* line 643, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_common.scss */
 .preloader .preloader-img img {
-  max-width: 55px;
+  max-width: 70px;
 }
 
 /* line 646, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_common.scss */
@@ -3449,7 +3448,8 @@ input:focus {
 
 /* line 21, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_headerMenu.scss */
 .header-area .header-bottom {
-  padding: 0px 170px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
@@ -9338,7 +9338,7 @@ input:focus {
 /* line 1, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_subscribe_part.scss */
 .subscribe_part {
   background-color: #191d34;
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 /* line 3, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_subscribe_part.scss */

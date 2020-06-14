@@ -7,18 +7,17 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="login_part_text text-center">
                         <div class="login_part_text_iner">
-                            <h2>New to our Shop?</h2>
-                            <p>There are advances being made in science and technology everyday,
-                                and a good example of this is the</p>
-                            <a href="{{url('register')}}" class="btn_3">Create an Account</a>
+                            <h2>Ещё не зарегистрировались в нашем магазине?</h2>
+                            <p>Нажмите на кнопку ниже, чтобы перейти на страницу регистрации</p>
+                            <a href="{{url('register')}}" class="btn_3">Зарегистрироваться</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="login_part_form">
                         <div class="login_part_form_iner">
-                            <h3>Welcome Back ! <br>
-                                Please Sign in now</h3>
+                            <h3>Добро пожаловать!<br>
+                                </h3>
                             <form class="row contact_form" action="{{ route('login') }}" method="post" novalidate="novalidate">
                                 @csrf
 
@@ -46,16 +45,16 @@
                                 <div class="col-md-12 form-group">
                                     <div class="creat_account d-flex align-items-center">
                                         <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                        <label for="remember">Remember me</label>
+                                        <label for="remember">Запомнить меня</label>
                                     </div>
 
                                     <button type="submit" class="btn_3">
-                                        {{ __('log in') }}
+                                        {{ __('Войти') }}
                                     </button>
 
                                     @if (Route::has('password.request'))
                                         <a class="lost_pass" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
+                                            {{ __('Забыли пароль?') }}
                                         </a>
                                     @endif
                                 </div>

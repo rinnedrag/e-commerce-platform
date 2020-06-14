@@ -65,6 +65,6 @@ class FootwearData extends Model
     }
 
     public function materials() {
-        return $this->hasMany('App\FootwearMaterial');
+        return $this->hasMany('App\FootwearMaterial', 'footwear_id');
     }
 }

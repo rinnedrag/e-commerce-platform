@@ -51,12 +51,18 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereUserId($value)
  * @mixin \Eloquent
+ * @property bool $is_paid
+ * @property float $shipping_price
+ * @property string|null $stripe_payment_id
+ * @property string|null $address
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereIsPaid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereShippingPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereStripePaymentId($value)
  */
 class Order extends Model
 {
     protected $table = 'orders';
-
-    protected $hidden = ['created_at', 'updated_at'];
 
     protected $fillable = ['user_id', 'phone_number', 'first_name', 'last_name', 'email', 'address', 'postcode', 'shipping',
         'shipping_price', 'billing_method', 'total', 'comment', 'is_paid', 'order_status', 'comment'];

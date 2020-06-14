@@ -16,6 +16,7 @@
                     <th>Категория</th>
                     <th>Бренд</th>
                     <th>Цвет</th>
+                    <th>Цена, Р.</th>
                     <th>Действие</th>
                 </tr>
             </thead>
@@ -27,19 +28,13 @@
                     <td>{{$model->kind}}</td>
                     <td>{{$model->brand}}</td>
                     <td>{{$model->color}}</td>
+                    <td>{{$model->price}}</td>
                     <td>
                         <!-- кнопка чтения товара -->
-                        <button class='btn btn-primary m-r-10px read-one-product-button'>
+                        <a href="{{url('/admin/products/list/'.$model->id)}}" class='btn btn-primary m-r-10px read-one-product-button'>
                             <i class="fas fa-eye"></i>
                             <span>Просмотр</span>
-                        </button>
-
-                        <!-- кнопка редактирования -->
-                        <button class='btn btn-info m-r-10px update-product-button'>
-                            <i class="fas fa-edit"></i>
-                            <span>Редактировать</span>
-                        </button>
-
+                        </a>
                         <!-- кнопка удаления товара -->
                         <button class='btn btn-danger delete-product-button'>
                             <i class="fas fa-trash-alt"></i>
@@ -50,5 +45,6 @@
             @endforeach
             </tbody>
         </table>
+        {{$footwear->withQueryString()->links()}}
     </div>
 @endsection

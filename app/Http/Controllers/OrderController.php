@@ -29,7 +29,8 @@ class OrderController extends Controller
             'address' => 'required',
             'shipping_price' => 'required|numeric',
             'billing_method' => 'required',
-            'comment' => 'max:100'
+            'comment' => 'max:100',
+            'postcode' => 'numeric'
         ]);
 
         if ($validator->fails()) {

@@ -11,6 +11,10 @@ use App\Order;
 class OrderService
 {
     public function createOrder($data, $cart, $userID) {
+        $postcode = '';
+        if (collect($data)->has('postcode')) {
+            $postcode = $data['postcode'];
+        }
         $order = Order::create([
             'user_id' => $userID,
             'first_name' => $data['first_name'],
@@ -24,6 +28,7 @@ class OrderService
             'billing_method' => $data['billing_method'],
             'address' => $data['address'],
             'order_status' => 'принят',
+            'postcode' => $postcode,
             'is_paid' => false
         ]);
         $orderProducts = collect([]);
@@ -43,7 +48,7 @@ class OrderService
 
     public function getStatus($orderStatus) {
         if ($orderStatus == 'active') {
-            return ['принят', 'обрабатывается', 'у курьера', 'ожидает в точке самовывоза', 'отправлен в точку самовывоза'];
+            return ['принят', 'обрабатывается', 'у курьера', 'ожидает в точке самовывоза', 'отправлен в точку самовывоза', 'отправлен по почте'];
         } else {
             return ['доставлен клиенту'];
         }

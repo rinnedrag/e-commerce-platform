@@ -13,7 +13,11 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        'http://127.0.0.1:8000/pay',
-        'http://127.0.0.1:8000/orders/pay/*'
+        'http://localhost:8000/pay',
+        'http://localhost:8000/orders/pay/*',
+        'http://localhost:8000/video/save',
+        'https://c9d9f9062250.ngrok.io/video/save',
+        'https://c9d9f9062250.ngrok.io/pay',
+        'https://c9d9f9062250.ngrok.io/orders/pay/*'
     ];
 }

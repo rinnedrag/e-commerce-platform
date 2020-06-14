@@ -1,6 +1,5 @@
+let url = '';
 $(document).ready(function () {
-    let $url = "http://127.0.0.1:8000";
-
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"
     });
@@ -17,14 +16,14 @@ $(document).ready(function () {
         let $data = new FormData(this);
 
         $.ajax({
-            url: $url+"/admin/products/create",
+            url: url+"/admin/products/create",
             type : "POST",
             contentType : false,
             processData: false,
             data : $data,
             success : function(result) {
                 // продукт был создан, вернуться к списку продуктов
-                //showProducts();
+                location.href = url+result.id
             },
             error: function(xhr, resp, text) {
                 // вывести ошибку в консоль
@@ -33,6 +32,14 @@ $(document).ready(function () {
         });
 
         return false;
+    });
+});
+
+/* 1. Preloader */
+$(window).on('load', function () {
+    $('#preloader-active').delay(450).fadeOut('slow');
+    $('body').delay(450).css({
+        'overflow': 'visible'
     });
 });
 
